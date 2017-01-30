@@ -1,0 +1,32 @@
+{
+  "name": "authorization",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Object oriented authorization for nodejs",
+  "main": "index.js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "should": "^11.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinceZK/authorizationjs.git"
+  },
+  "keywords": [
+    "authorization",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "VinceZK",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VinceZK/authorizationjs/issues"
+  },
+  "homepage": "https://github.com/VinceZK/authorizationjs#readme"
+}
