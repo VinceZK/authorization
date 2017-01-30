@@ -1,0 +1,29 @@
+[
+    {   "AuthObject": "user",
+        "AuthFieldValue":{
+            "Group": ["Ordinary"],
+            "Action": ["Create","Edit","Display","Delete","Lock","Unlock"]
+        }
+    },
+    {
+        "AuthObject": "blog",
+        "AuthFieldValue":{
+            "Tag": ["DB", "JS", "Algorithm"],
+            "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
+            "Action": ["Post", "Edit", "Publish"]
+        }
+    },
+    {   "AuthObject": "user",
+        "AuthFieldValue":{
+            "Group": ["Admin"],
+            "Action": ["Edit","Display","Lock","Unlock"]
+        }
+    },
+    {
+        "AuthObject": "blog",
+        "AuthFieldValue":{
+            "ID": [{"Operator":"Between", "Option":"Include", "Low":4000000, "High":4999999}, 7899999],
+            "Action": "*"
+        }
+    }
+]
