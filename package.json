@@ -1,8 +1,7 @@
 {
-  "name": "authorization",
+  "name": "node-authorization",
   "version": "0.0.1",
-  "private": true,
-  "description": "Object oriented authorization for nodejs",
+  "description": "A object oriented authorization for nodejs",
   "main": "index.js",
   "dependencies": {
     "underscore": "^1.8.3"
@@ -27,7 +26,7 @@
     "nodejs",
     "javascript"
   ],
-  "author": "VinceZK",
+  "author": "vincezk",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/VinceZK/authorizationjs/issues"
