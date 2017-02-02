@@ -69,6 +69,108 @@ describe('Authorization Profile 01', function(){
         })
     });
 
+    describe('Select Options', function(){
+        it('should pass "Between 4000000 and 4999999" with "Include"', function(){
+            should(authority.check('comment1', {blogID:4000000, Content:'Hello there', Action:'Post'})).eql(true);
+            should(authority.check('comment1', {blogID:3999999, Content:'Hello there', Action:'Post'})).eql(false);
+            should(authority.check('comment1', {blogID:4999999, Content:'Hello there', Action:'Post'})).eql(true);
+            should(authority.check('comment1', {blogID:5000000, Content:'Hello there', Action:'Post'})).eql(false);
+        });
+        it('should pass "Between 4000000 and 4999999" with "Exclude"', function(){
+            should(authority.check('comment2', {blogID:4000000, Content:'Hello there', Action:'Post'})).eql(false);
+            should(authority.check('comment2', {blogID:3999999, Content:'Hello there', Action:'Post'})).eql(true);
+            should(authority.check('comment2', {blogID:4999999, Content:'Hello there', Action:'Post'})).eql(false);
+            should(authority.check('comment2', {blogID:5000000, Content:'Hello there', Action:'Post'})).eql(true);
+        });
+        it('should pass "GreaterThan(>) 4000000" with "Include"', function(){
+            should(authority.check('comment3', {blogID:4000000, Content:'.... Best Regards', Action:'Post'})).eql(false);
+            should(authority.check('comment3', {blogID:4000001, Content:'.... Best Regards', Action:'Post'})).eql(true);
+        });
+        it('should pass "GreaterThan(>) 4000000" with "Exclude"', function(){
+            should(authority.check('comment4', {blogID:4000000, Content:'.... Best Regards', Action:'Post'})).eql(true);
+            should(authority.check('comment4', {blogID:4000001, Content:'.... Best Regards', Action:'Post'})).eql(false);
+        });
+        it('should pass "LessThan(<) 4000000" with "Include"', function(){
+            should(authority.check('comment5', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(false);
+            should(authority.check('comment5', {blogID:3999999, Content:'hello good bye', Action:'Post'})).eql(true);
+        });
+        it('should pass "LessThan(<) 4000000" with "Exclude"', function(){
+            should(authority.check('comment6', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment6', {blogID:3999999, Content:'hello good bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "GreaterEqual(>=) 4000000" with "Include"', function(){
+            should(authority.check('comment7', {blogID:3999999, Content:'hello good bye', Action:'Post'})).eql(false);
+            should(authority.check('comment7', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(true);
+        });
+        it('should pass "GreaterEqual(>=) 4000000" with "Exclude"', function(){
+            should(authority.check('comment8', {blogID:3999999, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment8', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "LessEqual(<=) 4000000" with "Include"', function(){
+            should(authority.check('comment9', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment9', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "LessEqual(<=) 4000000" with "Exclude"', function(){
+            should(authority.check('comment10', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(false);
+            should(authority.check('comment10', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(true);
+        });
+        it('should pass "Equal(==) 4000000" with "Include"', function(){
+            should(authority.check('comment11', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment11', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "Equal(==) 4000000" with "Exclude"', function(){
+            should(authority.check('comment12', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(false);
+            should(authority.check('comment12', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(true);
+        });
+        it('should pass "NotEqual(!=) 4000000" with "Include"', function(){
+            should(authority.check('comment13', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(false);
+            should(authority.check('comment13', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(true);
+        });
+        it('should pass "NotEqual(!=) 4000000" with "Exclude"', function(){
+            should(authority.check('comment14', {blogID:4000000, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment14', {blogID:4000001, Content:'hello good bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "StartsWith" with "Include"', function(){
+            should(authority.check('comment1', {blogID:4000000, Content:'Hello there', Action:'Post'})).eql(true);
+            should(authority.check('comment1', {blogID:4000000, Content:'hello there', Action:'Post'})).eql(false);
+            should(authority.check('comment1', {blogID:4000000, Content:'aaa hello there', Action:'Post'})).eql(false);
+        });
+        it('should pass "StartsWith" with "Exclude"', function(){
+            should(authority.check('comment2', {blogID:3999999, Content:'Shit there', Action:'Post'})).eql(false);
+            should(authority.check('comment2', {blogID:3999999, Content:'hello there', Action:'Post'})).eql(true);
+            should(authority.check('comment2', {blogID:3999999, Content:'aaa Shit there', Action:'Post'})).eql(true);
+        });
+        it('should pass "EndsWith" with "Include"', function(){
+            should(authority.check('comment3', {blogID:4000001, Content:'.... Best Regards', Action:'Post'})).eql(true);
+            should(authority.check('comment3', {blogID:4000001, Content:'.... Best Regards aaa', Action:'Post'})).eql(false);
+        });
+        it('should pass "EndsWith" with "Exclude"', function(){
+            should(authority.check('comment4', {blogID:3999999, Content:'.... Shit', Action:'Post'})).eql(false);
+            should(authority.check('comment4', {blogID:3999999, Content:'.... Shit aaa', Action:'Post'})).eql(true);
+        });
+        it('should pass "Contains" with "Include"', function(){
+            should(authority.check('comment5', {blogID:3999999, Content:'hello good bye', Action:'Post'})).eql(true);
+            should(authority.check('comment5', {blogID:3999999, Content:'hello goo bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "Contains" with "Exclude"', function(){
+            should(authority.check('comment6', {blogID:4000000, Content:'... fuck ...', Action:'Post'})).eql(false);
+            should(authority.check('comment6', {blogID:4000000, Content:'... fuc ...', Action:'Post'})).eql(true);
+        });
+        it('should pass "Matches(Regexp)" with "Include"', function(){
+            should(authority.check('comment7', {blogID:4000000, Content:'hello GoOd bye', Action:'Post'})).eql(true);
+            should(authority.check('comment7', {blogID:4000000, Content:'.. hello goodbye ..', Action:'Post'})).eql(true);
+            should(authority.check('comment7', {blogID:4000000, Content:'hello God bye', Action:'Post'})).eql(false);
+            should(authority.check('comment7', {blogID:4000000, Content:'hello Go0d bye', Action:'Post'})).eql(false);
+        });
+        it('should pass "Matches(Regexp)" with "Exclude"', function(){
+            should(authority.check('comment8', {blogID:3999999, Content:'... Shit ...', Action:'Post'})).eql(false);
+            should(authority.check('comment8', {blogID:3999999, Content:'... shit ...', Action:'Post'})).eql(false);
+            should(authority.check('comment8', {blogID:3999999, Content:'... ShIt ...', Action:'Post'})).eql(false);
+            should(authority.check('comment8', {blogID:3999999, Content:'... shit, Shit, SHIT ...', Action:'Post'})).eql(false);
+            should(authority.check('comment8', {blogID:3999999, Content:'... Sh0t ...', Action:'Post'})).eql(true);
+        });
+    });
+
     describe('Hot Test', function(){
         it('should pass', function(){
             should(authority.check('blog', {Tag:'DB', ID:3000000, Action:'Post'})).eql(false);

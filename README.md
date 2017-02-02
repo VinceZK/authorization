@@ -22,7 +22,7 @@ if(!authorization.check('user', {Group:'Admin',Action:'Create'})){
 The authorization profile consists of authorization objects and their authorization fields and values. 
 It is in JSON format and can be maintained through all possible UI tools. It is recommended to be saved in DB,
 and associated with login users. You can, for example, develop a role maintenance UI, 
-which will also generate the authorization profiles. When you assign roles to users, the corresponding authorizations are also assigned.
+which generates the authorization profiles. When you assign roles to users, the corresponding authorizations are also assigned.
 
 ```javascript
 [
@@ -44,7 +44,7 @@ which will also generate the authorization profiles. When you assign roles to us
 ```
 
 ## Example
-You can find more details on the *example* folder, and run the tests by typing following bash:
+You can find more details in the *example* folder, and run the tests by typing following bash:
  ```bash
     $ npm run test
  ```
