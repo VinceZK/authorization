@@ -9,7 +9,7 @@
         "AuthObject": "blog",
         "AuthFieldValue":{
             "Tag": ["DB", "JS", "Algorithm"],
-            "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
+            "ID": [{"Operator":"Between", "Option":"Include", "Low":0, "High":1999999}, 2399999],
             "Action": ["Post", "Edit", "Publish"]
         }
     },
@@ -23,119 +23,6 @@
         "AuthObject": "blog",
         "AuthFieldValue":{
             "ID": [{"Operator":"Between", "Option":"Include", "Low":4000000, "High":4999999}, 7899999],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment1",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"Between", "Option":"Include", "Low":4000000, "High":4999999}],
-            "Content":[{"Operator":"StartsWith", "Option":"Include", "Low":"Hello"}],
-            "Action": ["Post", "Delete", "Modify"]
-        }
-    },
-    {
-        "AuthObject": "comment2",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"Between", "Option":"Exclude", "Low":4000000, "High":4999999}],
-            "Content":[{"Operator":"StartsWith", "Option":"Exclude", "Low":"Shit"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment3",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"GreaterThan", "Option":"Include", "Low":4000000}],
-            "Content":[{"Operator":"EndsWith", "Option":"Include", "Low":"Best Regards"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment4",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"GreaterThan", "Option":"Exclude", "Low":4000000}],
-            "Content":[{"Operator":"EndsWith", "Option":"Exclude", "Low":"Shit"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment5",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"LessThan", "Option":"Include", "Low":4000000}],
-            "Content":[{"Operator":"Contains", "Option":"Include", "Low":"good"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment6",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"LessThan", "Option":"Exclude", "Low":4000000}],
-            "Content":[{"Operator":"Contains", "Option":"Exclude", "Low":"fuck"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment7",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"GreaterEqual", "Option":"Include", "Low":4000000}],
-            "Content":[{"Operator":"Matches", "Option":"Include", "Low":"/good/gi"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment8",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"GreaterEqual", "Option":"Exclude", "Low":4000000}],
-            "Content":[{"Operator":"Matches", "Option":"Exclude", "Low":"/shit/gi"}],
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment9",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"LessEqual", "Option":"Include", "Low":4000000},
-                       {"Operator":"Equal", "Option":"Include", "Low":5000000}],
-            "Content":"*",
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment10",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"LessEqual", "Option":"Exclude", "Low":4000000}],
-            "Content":"*",
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment11",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"Equal", "Option":"Include", "Low":4000000}],
-            "Content":"*",
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment12",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"Equal", "Option":"Exclude", "Low":4000000}],
-            "Content":"*",
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment13",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"NotEqual", "Option":"Include", "Low":4000000}],
-            "Content":"*",
-            "Action": "*"
-        }
-    },
-    {
-        "AuthObject": "comment14",
-        "AuthFieldValue":{
-            "blogID": [{"Operator":"NotEqual", "Option":"Exclude", "Low":4000000}],
-            "Content":"*",
             "Action": "*"
         }
     }
