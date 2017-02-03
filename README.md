@@ -8,22 +8,21 @@ For example, user A can edit blogs with tag  "DB", while user B can add blogs wi
 
 ## Example
 ```javascript
+var Authorization = require('node-authorization').Authorization;
+var compileProfile = require('node-authorization').profileCompiler;
+var fs = require('fs');
 
-    var Authorization = require('node-authorization').Authorization;
-    var compileProfile = require('node-authorization').profileCompiler;
-    var fs = require('fs');
-    
-    // Read the authorization profile from file system and compile it. 
-    // You can also store profiles in DB(recommended).
-    var rawProfile = JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8'));
-    var compiledProfile = compileProfile(rawProfile);
-    
-    var Authorization = new Authorization('UserID', compiledProfile);
-    if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
-       //Report a message, and break;
-    }else{
-       //Do the add blog;
-    }
+// Read the authorization profile from file system and compile it. 
+// You can also store profiles in DB(recommended).
+var rawProfile = JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8'));
+var compiledProfile = compileProfile(rawProfile);
+
+var Authorization = new Authorization('UserID', compiledProfile);
+if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
+   //Report a message, and break;
+}else{
+   //Do the add blog;
+}
 ```
 
 The authorization profiles consist of authorization objects and their authorization fields and values. 
@@ -112,38 +111,38 @@ And now you can use Node-authorization together with Passport and Express. You o
    ```
 
 2. In the passport "serializeUser" function, save the compiled profile to the session storage:
-```javascript
-passport.serializeUser(function(user, done) {
-    //You are recommended to save the compiled authorization profile into session storage.
-    //By doing this, it gains performance when you do authorization checks.
-    //The "user" object is supposed like this: {id:'001'; authProfile:[...]}.
-    done(null, user);
-}),
+    ```javascript
+    passport.serializeUser(function(user, done) {
+        //You are recommended to save the compiled authorization profile into session storage.
+        //By doing this, it gains performance when you do authorization checks.
+        //The "user" object is supposed like this: {id:'001'; authProfile:[...]}.
+        done(null, user);
+    }),
     ```
 
 3. In the passport "deserializeUser" function, initialize the Authorization object with the session profile:
-```javascript
-passport.deserializeUser(function(user, done) {
-    if(user.id && user.authProfile)
-        user.Authorization = new Authorization(user.id, user.authProfile);
-
-    done(null,  user);
-});
+    ```javascript
+    passport.deserializeUser(function(user, done) {
+        if(user.id && user.authProfile)
+            user.Authorization = new Authorization(user.id, user.authProfile);
+    
+        done(null,  user);
+    });
     ```
 
 4. In your restful APIs, embed the authorization checks:
-```javascript
-addBlog:function(req,res){
-    if(!req.user.Authorization.check('blog', {Tag:'DB', ID:req.body.blog.ID, Action:'Add'})){
-        res.end('You do not have the permission to add a new blog!');
-    }else
-        blog.addBlog(req.body.blog, function(msg,blogId){
-            ...
-            res.json(msg);
-        })
-    }    
-},
-```
+    ```javascript
+    addBlog:function(req,res){
+        if(!req.user.Authorization.check('blog', {Tag:'DB', ID:req.body.blog.ID, Action:'Add'})){
+            res.end('You do not have the permission to add a new blog!');
+        }else
+            blog.addBlog(req.body.blog, function(msg,blogId){
+                ...
+                res.json(msg);
+            })
+        }    
+    },
+    ```
 
 When a user is logged on, the authorization profiles are compiled and saved in the login session storage. 
 Then each time the user performs an action on an object, 
