@@ -111,24 +111,24 @@ And now you can use Node-authorization together with Passport and Express. You o
     ));
    ```
 
-   2. In the passport "serializeUser" function, save the compiled profile to the session storage:
-   ```javascript
-    passport.serializeUser(function(user, done) {
-        //You are recommended to save the compiled authorization profile into session storage.
-        //By doing this, it gains performance when you do authorization checks.
-        //The "user" object is supposed like this: {id:'001'; authProfile:[...]}.
-        done(null, user);
-    }),
+2. In the passport "serializeUser" function, save the compiled profile to the session storage:
+```javascript
+passport.serializeUser(function(user, done) {
+    //You are recommended to save the compiled authorization profile into session storage.
+    //By doing this, it gains performance when you do authorization checks.
+    //The "user" object is supposed like this: {id:'001'; authProfile:[...]}.
+    done(null, user);
+}),
     ```
 
-   3. In the passport "deserializeUser" function, initialize the Authorization object with the session profile:
-   ```javascript
-    passport.deserializeUser(function(user, done) {
-        if(user.id && user.authProfile)
-            user.Authorization = new Authorization(user.id, user.authProfile);
-    
-        done(null,  user);
-    });
+3. In the passport "deserializeUser" function, initialize the Authorization object with the session profile:
+```javascript
+passport.deserializeUser(function(user, done) {
+    if(user.id && user.authProfile)
+        user.Authorization = new Authorization(user.id, user.authProfile);
+
+    done(null,  user);
+});
     ```
 
 4. In your restful APIs, embed the authorization checks:
