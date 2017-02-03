@@ -1,7 +1,7 @@
 {
   "name": "node-authorization",
   "version": "1.0.0",
-  "description": "A object oriented authorization for nodejs",
+  "description": "An object oriented authorization framework for nodejs",
   "main": "index.js",
   "dependencies": {
     "underscore": "^1.8.3"

@@ -13,10 +13,16 @@ var _selectOption = require('./selectOption.js');
  * Created by VinceZK on 1/30/17.
  */
 exports.Authorization = Authorization;
-//import fs from 'fs';
+
 
 var authorizationTraceIsOn = false;
 
+/**
+ * Constructor
+ * @param id
+ * @param profile
+ * @constructor
+ */
 function Authorization(id, profile) {
     if (!id || !profile) throw new Error('id and profile are mandatory!');
     if (typeof id !== 'string') throw new Error('id must be a string!');

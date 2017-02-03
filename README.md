@@ -54,7 +54,7 @@ An authorization profile example:
 
 You can find more details in the *example* folder, and run the tests by typing following bash:
  ```bash
-    $ npm run test
+ $ npm run test
  ```
  
 ## To Begin

@@ -28,7 +28,7 @@ function compileProfile(rawProfiles) {
         });
 
         if (_existPermissionIdx > -1) {
-            merge(_compiledProfile[_existPermissionIdx], permission);
+            _merge(_compiledProfile[_existPermissionIdx], permission);
         } else _compiledProfile.push(permission);
     });
 
@@ -41,7 +41,7 @@ function compileProfile(rawProfiles) {
  * @param permission2
  * @private
  */
-function merge(permission1, permission2) {
+function _merge(permission1, permission2) {
     var _fieldValue = void 0;
     if (permission1.AuthObject !== permission2.AuthObject) return false;
 

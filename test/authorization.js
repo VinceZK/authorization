@@ -36,7 +36,7 @@ describe('Authorization Profile 01', function(){
             grantedPermission.AuthFieldValue.Tag.should.
                 eql([ 'DB', 'JS', 'Algorithm' ]);
             grantedPermission.AuthFieldValue.ID.should.
-                eql([ { Operator: 'Between', Option: 'Include', Low: 1000000, High: 1999999 },
+                eql([ { Operator: 'Between', Option: 'Include', Low: 0, High: 1999999 },
                     2399999,
                     { Operator: 'Between', Option: 'Include', Low: 4000000, High: 4999999 },
                     7899999 ]);
@@ -176,7 +176,7 @@ describe('Authorization Profile 01', function(){
         });
     });
 
-    describe.only('Hot Test', function(){
+    describe('Hot Test', function(){
         it('should pass', function(){
             authority.check('blog', {Tag:'JS', ID:0, Action:'Edit'}).should.eql(true);
         })
