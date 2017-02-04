@@ -151,10 +151,12 @@ corresponding authorization checks can be done before it actually happens.
 Developers can decide where to embed the "authorization.check()" statements.
 
 ## Maintain Authorization Profile
-An authorization profile includes multiple authorization objects. Each authorization object can have more than one
-authorization field. An authorization field is assigned with authorization values to indicate the granted permission.
+A user can be assigned with multiple authorization profiles, and each authorization profile includes multiple authorization objects. 
+Each authorization object can have more than one authorization fields. 
+An authorization field is assigned with authorization values to indicate the granted permissions.
 
 For example, the following profile contains an authorization object named "blog", which has fields "Tag", "ID", and "Action".
+
 ```javascript
 [
     ...
@@ -169,29 +171,40 @@ For example, the following profile contains an authorization object named "blog"
     ...
 ]
 ``` 
-The permission described by above profile stands for the users who are assigned can do **Post, Edit, and Publish** 
-on **Blogs** which are tagged with **DB, JS, or Algorith** and whose ID are **between 1000000 and 1999999**.
+
+The permission described by above profile stands for the user who is assigned can do **Post, Edit, and Publish** 
+on **Blogs** which are tagged with **DB, JS, or Algorithm** and whose ID are **between 1000000 and 1999999**.
 
 The authorization value of a field is usually an array, 
-which can contain elementary values(string or integer) or a **Select Option**s. 
-The value can also be the mix of both. 
-And if you want the full permission, just assign the "*" character to the certain field.
+which can contain elementary values(string or integer) or a **Select Option**s, and they can be mix. 
+If you want the full permission, just assign the **"*"** character to the certain fields.
 
-A select option is described with 4 attributes: "Operator", "Option", "Low", and "High", which are detailed bellow: 
+A select option is described by 4 attributes: "Operator", "Option", "Low", and "High", which are detailed bellow: 
 
 ### Operator
 Now, following operators are supported:
+
 1. **Between**: between the Low value and High value, the Low and High are both included.
+
 2. **GreaterThan**: greater than the Low value, the High value is ignored. 
+
 3. **LessThan**: less than the Low value, the High value is ignored. 
+
 4. **GreaterEqual**: greater than or equal to the Low value.
+
 5. **LessEqual**: less than or equal to the Low value.
+
 6. **Equal**: equal to the Low value.
+
 7. **NotEqual**: not equal to the Low value.
+
 8. **StartsWith**: the check value is string, and starts with the Low value.
+
 9. **EndsWith**: the check value is string, and ends with the Low value.
+
 10. **Contains**: the check value is string, and contains the Low value.
-11. **Matches**: the Low value is regular expression.
+
+11. **Matches**: the Low value is a regular expression.
 
 ### Option
 It only contains 2 possible value: "Include" or "Exclude". 
