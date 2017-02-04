@@ -1,6 +1,6 @@
 # Authorization
 An Object-Oriented Authorization Framework for nodejs. 
-Unlike others, it allows end-users rather than developers to define authorizations profiles and objects. 
+Unlike others, it allows end-users rather than developers to define authorizations. 
 
 In real use cases, control which views/APIs can be called or not is far more enough. 
 We usually require different users have different permissions on different objects, rather than on different roles or activities.
@@ -31,7 +31,7 @@ if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
 ```
 
 The authorization profiles consist of authorization objects and their authorization fields and values. 
-They are in JSON format and can be maintained through all possible UI tools. 
+They are in JSON format and can be maintained through all possible UI tools by the end-users. 
 They are recommended to be saved in DB so that they can be easily associated with login user IDs. 
 You can develop a role maintenance UI, which generates the authorization profiles. 
 When the roles are assigned to users, the corresponding authorization profiles are also assigned.
@@ -139,7 +139,7 @@ You only need to do following 4 steps:
 4. In your restful APIs, embed the authorization checks:
     ```javascript
     addBlog:function(req,res){
-        if(!req.user.Authorization.check('blog', {Tag:'DB', ID:req.body.blog.ID, Action:'Add'})){
+        if(!req.user.Authorization.check('blog', {Tag:req.body.blog.tag, ID:req.body.blog.ID, Action:'Add'})){
             res.end('You do not have the permission to add a new blog!');
         }else
             blog.addBlog(req.body.blog, function(msg,blogId){
