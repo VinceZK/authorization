@@ -217,7 +217,7 @@ Higher value is currently only used in the "Between" operator.
 
 ## Switch Authorization Trace
 It is very useful to know which permissions are missing 
-when certain authorization checks are failed, or when developers want to know which authorization objects are checked
+when certain authorization checks fail, or when developers want to know which authorization objects are checked
 during a certain operation. 
 
 You can switch the authorization trace on by calling following global function:
