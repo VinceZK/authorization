@@ -2,9 +2,14 @@
 An Object-Oriented Authorization Framework for nodejs. 
 Unlike others, it allows end-users rather than developers to define authorizations profiles and objects. 
 
-In real use cases, control which pages can be viewed or not is far more enough. 
-We usually require different users have different permissions on different objects. 
-For example, user A can edit blogs with tag  "DB", while user B can add blogs with tag 'JS'.
+In real use cases, control which views/APIs can be called or not is far more enough. 
+We usually require different users have different permissions on different objects, rather than on different roles or activities.
+For example, user A can edit blogs with tag "DB", while user B can add blogs with tag 'JS'.
+As the tags are growing, it is impossible for developers to change the codes to adapt new tags. 
+Instead, you should let the end-users to do the authorization definitions and assignments. 
+In other words, You'd better to 
+
+**Split the authorization logic apart from your application logic.** 
 
 ## Example
 ```javascript
@@ -52,7 +57,7 @@ An authorization profile example:
 ]
 ```
 
-You can find more details in the **example** folder, and run the tests by typing following bash:
+You can find more details in the `example` folder, and run the tests by typing following bash:
 ```bash
 $ npm run test
 ```
@@ -172,11 +177,11 @@ For example, the following profile contains an authorization object named "blog"
 ]
 ``` 
 
-The permission described by above profile stands for the user who is assigned can do **Post, Edit, and Publish** 
-on **Blogs** which are tagged with **DB, JS, or Algorithm** and whose ID are **between 1000000 and 1999999**.
+The permission described by above profile stands for the user who is assigned can do `Post, Edit, and Publish` 
+on `blogs` which are tagged with `DB, JS, or Algorithm` and whose ID are `between 1000000 and 1999999`.
 
 The authorization value of a field is usually an array, 
-which can contain elementary values(string or integer) or a **Select Option**s, and they can be mix. 
+which can contain elementary values(string or integer) or **Select Options**, and they can be mix. 
 If you want the full permission, just assign the **"*"** character to the certain fields.
 
 A select option is described by 4 attributes: "Operator", "Option", "Low", and "High", which are detailed bellow: 
