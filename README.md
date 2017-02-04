@@ -52,10 +52,10 @@ An authorization profile example:
 ]
 ```
 
-You can find more details in the *example* folder, and run the tests by typing following bash:
- ```bash
- $ npm run test
- ```
+You can find more details in the **example** folder, and run the tests by typing following bash:
+```bash
+$ npm run test
+```
  
 ## To Begin
 
@@ -86,8 +86,9 @@ While authentication verifies the user’s identity,
 authorization verifies that the user in question has the correct permissions and rights to access the requested resource.
 The two always work together. Authentication occurs first, then authorization. 
 
-[Passport](http://passportjs.org/) is a popular authentication middleware which is compatible with [Express](http://expressjs.com/).
-And now you can use Node-authorization together with Passport and Express. You only need to do following 4 steps:
+[Passport](http://passportjs.org/) is a popular **authentication** middleware which is compatible with [Express](http://expressjs.com/).
+And now you can use **Node-Authorization** as an accompaniment with Passport and Express. 
+You only need to do following 4 steps:
 
 1. In your Passport login strategy, when the user identification is verified, roll-in its authorization profiles:
     ```javascript
@@ -148,6 +149,88 @@ When a user is logged on, the authorization profiles are compiled and saved in t
 Then each time the user performs an action on an object, 
 corresponding authorization checks can be done before it actually happens. 
 Developers can decide where to embed the "authorization.check()" statements.
+
+## Maintain Authorization Profile
+An authorization profile includes multiple authorization objects. Each authorization object can have more than one
+authorization field. An authorization field is assigned with authorization values to indicate the granted permission.
+
+For example, the following profile contains an authorization object named "blog", which has fields "Tag", "ID", and "Action".
+```javascript
+[
+    ...
+    {
+        "AuthObject": "blog",
+        "AuthFieldValue":{
+            "Tag": ["DB", "JS", "Algorithm"],
+            "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}],
+            "Action": ["Post", "Edit", "Publish"]
+        }
+    },
+    ...
+]
+``` 
+The permission described by above profile stands for the users who are assigned can do **Post, Edit, and Publish** 
+on **Blogs** which are tagged with **DB, JS, or Algorith** and whose ID are **between 1000000 and 1999999**.
+
+The authorization value of a field is usually an array, 
+which can contain elementary values(string or integer) or a **Select Option**s. 
+The value can also be the mix of both. 
+And if you want the full permission, just assign the "*" character to the certain field.
+
+A select option is described with 4 attributes: "Operator", "Option", "Low", and "High", which are detailed bellow: 
+
+### Operator
+Now, following operators are supported:
+1. **Between**: between the Low value and High value, the Low and High are both included.
+2. **GreaterThan**: greater than the Low value, the High value is ignored. 
+3. **LessThan**: less than the Low value, the High value is ignored. 
+4. **GreaterEqual**: greater than or equal to the Low value.
+5. **LessEqual**: less than or equal to the Low value.
+6. **Equal**: equal to the Low value.
+7. **NotEqual**: not equal to the Low value.
+8. **StartsWith**: the check value is string, and starts with the Low value.
+9. **EndsWith**: the check value is string, and ends with the Low value.
+10. **Contains**: the check value is string, and contains the Low value.
+11. **Matches**: the Low value is regular expression.
+
+### Option
+It only contains 2 possible value: "Include" or "Exclude". 
+And "Exclude" is just the complement set of "Include".
+
+### Low & High
+Stands for the lower value and higher value. 
+Higher value is currently only used in the "Between" operator.
+
+
+## Switch Authorization Trace
+It is very useful to know which permissions are missing 
+when certain authorization checks are failed, or when developers want to know which authorization objects are checked
+during a certain operation. 
+
+You can switch the authorization trace on by calling following global function:
+
+```javascript
+Authorization.switchTraceOn();
+```
+or switch off:
+
+```javascript
+Authorization.switchTraceOff();
+```
+
+The trace result is output to the console:
+
+```bash
+The identification is vincezk
+Authorization object: blog
+Required permission: {"blogID":4000000,"Content":"hello good bye","Action":"Post"}
+Authorization field: blogID
+Required field permission: 4000000
+Granted field permission:[{"Operator":"GreaterThan","Option":"Include","Low":4000000}]
+```
+
+The trace switch on/off does not require the restart of the node processes. It is a hot switch. 
+If you provide a function to allow end-users to switch on/off, then it will be much more convenient.
 
 ## License
 [The MIT License](http://opensource.org/licenses/MIT)
