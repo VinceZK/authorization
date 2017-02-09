@@ -1,5 +1,5 @@
 # Authorization
-An Object-Oriented Authorization Framework for nodejs. 
+Inspired by SAP authorization check, it is a object oriented authorization framework.
 Unlike others, it allows end-users rather than developers to define authorizations. 
 
 In real use cases, control which views/APIs can be called or not is far more enough. 

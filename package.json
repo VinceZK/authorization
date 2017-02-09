@@ -1,6 +1,6 @@
 {
   "name": "node-authorization",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An object oriented authorization framework for Node.js, compatiable with express and passport.",
   "main": "index.js",
   "dependencies": {
@@ -24,9 +24,12 @@
   },
   "keywords": [
     "authorization",
+    "authentication",
+    "security",
     "express",
     "passport",
-    "nodejs"
+    "nodejs",
+    "framework"
   ],
   "author": "vincezk",
   "license": "MIT",
