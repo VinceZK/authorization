@@ -3,7 +3,6 @@
  * Because Mocha doesn't support ES6 import, so we need the help of bable.
  * Refer this page: https://babeljs.io/docs/setup/#installation for details.
  */
-//var should = require('should');
 var Authorization = require('../index.js').Authorization;
 var compileProfile = require('../index.js').profileCompiler;
 var fs = require('fs');
@@ -48,6 +47,8 @@ describe('Authorization Profile 01', function(){
         });
 
         it('should fail the check for user', function(){
+            //Auth object "xxx" doesn't exit
+            authority.check('xxxx', {Group:'Admin', Action:'Display'}).should.eql(false);
             //Auth field "user" doesn't exist
             authority.check('user', {Group:'Admin',Action:'Create', user:'vincezk'}).should.eql(false);
             //Auth field "Action" doesn't contain value 'Approve'

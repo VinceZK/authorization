@@ -54,4 +54,4 @@ function _merge(permission1, permission2) {
         if (!_fieldValue) permission1.AuthFieldValue[field] = value;else if ((0, _underscore.isArray)(_fieldValue)) permission1.AuthFieldValue[field] = (0, _underscore.union)(_fieldValue, value);
     });
     return true;
-};
+}

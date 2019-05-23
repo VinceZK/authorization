@@ -34,7 +34,7 @@ function Authorization(id, profile) {
 /**
  * Do authorization check
  * @param authObject
- * @param requiredPermission
+ * @param requiredPermission: {authField1:value1, authField2:value2, ...}
  * @returns {boolean}
  */
 Authorization.prototype.check = function (authObject, requiredPermission) {
@@ -45,6 +45,8 @@ Authorization.prototype.check = function (authObject, requiredPermission) {
     var grantedPermission = (0, _underscore.find)(this.profile, function (authorization) {
         return authorization.AuthObject === authObject;
     });
+
+    if (!grantedPermission) return false;
 
     return (0, _underscore.every)(requiredPermission, function (value, field) {
         var _grantedValue = grantedPermission.AuthFieldValue[field];
@@ -88,14 +90,10 @@ Authorization.prototype.check = function (authObject, requiredPermission) {
 };
 
 Authorization.switchTraceOn = function () {
-    "use strict";
-
     authorizationTraceIsOn = true;
 };
 
 Authorization.switchTraceOff = function () {
-    "use strict";
-
     authorizationTraceIsOn = false;
 };
 
@@ -106,8 +104,6 @@ Authorization.switchTraceOff = function () {
  * @private
  */
 function _outputTraceObject(id, authObject, requiredPermission) {
-    "use strict";
-
     console.info('The identification is ' + id);
     if (authObject) {
         console.info('Authorization object: ' + authObject);
@@ -120,8 +116,7 @@ function _outputTraceObject(id, authObject, requiredPermission) {
     } else {
         console.error('Required permission is NULL!');
     }
-};
-
+}
 /**
  * Output authorization check error field and value
  * @param field
@@ -130,9 +125,7 @@ function _outputTraceObject(id, authObject, requiredPermission) {
  * @private
  */
 function _outputTraceField(field, requiredValue, grantedValue) {
-    "use strict";
-
     console.error('Authorization field: ' + field);
     console.error('Required field permission: ' + JSON.stringify(requiredValue));
     console.error('Granted field permission:' + JSON.stringify(grantedValue));
-};
+}
