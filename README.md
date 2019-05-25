@@ -1,9 +1,10 @@
 # Authorization
-Inspired by SAP authorization check, it is a object oriented authorization framework.
-Unlike others, it allows end-users rather than developers to define authorizations. 
+Inspired by SAP's authorization check, node-authorization is an object-oriented authorization framework.
+It allows end-users rather than developers to define authorizations. 
 
 In real use cases, control which views/APIs can be called or not is far more enough. 
-We usually require different users have different permissions on different objects, rather than on different roles or activities.
+We require different users have different permissions on different business objects, 
+rather than simply building relationships between user and activities.
 For example, user A can edit blogs with tag "DB", while user B can add blogs with tag 'JS'.
 As the tags are growing, it is impossible for developers to change the codes to adapt new tags. 
 Instead, you should let the end-users to do the authorization definitions and assignments. 
@@ -13,16 +14,16 @@ In other words, You'd better to
 
 ## Example
 ```javascript
-var Authorization = require('node-authorization').Authorization;
-var compileProfile = require('node-authorization').profileCompiler;
-var fs = require('fs');
+const Authorization = require('node-authorization').Authorization;
+const compileProfile = require('node-authorization').profileCompiler;
+const fs = require('fs');
 
 // Read the authorization profile from file system and compile it. 
 // You can also store profiles in DB(recommended).
-var rawProfile = JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8'));
-var compiledProfile = compileProfile(rawProfile);
+const rawProfile = JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8'));
+const compiledProfile = compileProfile(rawProfile);
 
-var Authorization = new Authorization('UserID', compiledProfile);
+const Authorization = new Authorization('UserID', compiledProfile);
 if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
    //Report a message, and break;
 }else{
@@ -30,37 +31,83 @@ if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
 }
 ```
 
-The authorization profiles consist of authorization objects and their authorization fields and values. 
-They are in JSON format and can be maintained through all possible UI tools by the end-users. 
-They are recommended to be saved in DB so that they can be easily associated with login user IDs. 
-You can develop a role maintenance UI, which generates the authorization profiles. 
-When the roles are assigned to users, the corresponding authorization profiles are also assigned.
+## Terminology 
+### Authorization Object
+*Authorization Object* usually corresponds to a business object, like "user", "blog", "material", "order", and so on.
+Sometimes, it can also be an abstract object that is only for the permission check purposes.
+For example, if you want show the total blog reads for certain users,
+then you need to create an authorization object like "blogStatistic".
 
-An authorization profile example:
+### Authorization Field
+An authorization object can be assigned with more than one *Authorization Fields*. 
+Usually, we have the "Action" authorization field to indicates the operations allowed to a certain business object.
+Besides, we can have attributes derived from the business object as authorization fields. 
+This can facility the permission management by easily differentiate on the object instances. 
+For example, it is very common to add organizational fields as authorization fields, 
+like company, department, group on the "user" object. 
 
-```javascript
+### Authorization 
+*Authorization* describes permissions on a business object.
+It is an instance of an authorization object, with concrete authorization values assigned to each authorization field.
+Below example shows an authorization of the "user" authorization object. 
+It allows the granted identity has the permission to "Create", "Edit", "Display", "Lock", "Unlock" a "user" object.
+```json
+{   
+    AuthObject: "user",
+    AuthFieldValue: 
+    {
+        Group: ["Ordinary"],
+        Action: ["Create","Edit","Display","Delete","Lock","Unlock"]
+    }
+}
+```
+
+**Note:** authorizations on the same authorization object won't be merged as one when
+doing authorization checks. Each authorization is an independent permission description.
+They are examined separately during authorization checks. 
+
+For example, if below authorization is assigned to an identity 
+together with the above authorization. 
+It doesn't mean the identity can do "Edit" operation on both "Ordinary" and "Admin" user groups. 
+```json
+{   
+    AuthObject: "user",
+    AuthFieldValue: 
+    {
+        Group: ["Admin"],
+        Action: ["Create","Display","Delete"]
+    }
+}
+```
+
+### Authorization Profile
+*Authorization Profile* consists of multiple authorizations.
+It is a logic representation of authorizations that can be assigned to an identity as a unit. 
+Here is an authorization profile which consists of 2 authorizations:
+
+```json
 [
-    {   "AuthObject": "user",
-        "AuthFieldValue":{
-            "Group": ["Ordinary"],
-            "Action": ["Create","Edit","Display","Delete","Lock","Unlock"]
+    {   AuthObject: "user",
+        AuthFieldValue:{
+            Group: ["Ordinary"],
+            Action: ["Create","Edit","Display","Delete","Lock","Unlock"]
         }
     },
     {
-        "AuthObject": "blog",
-        "AuthFieldValue":{
-            "Tag": ["DB", "JS", "Algorithm"],
-            "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
-            "Action": ["Post", "Edit", "Publish"]
+        AuthObject: "blog",
+        AuthFieldValue:{
+            Tag: ["DB", "JS", "Algorithm"],
+            ID: [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
+            Action: ["Post", "Edit", "Publish"]
         }
     }
 ]
 ```
 
-You can find more details in the `example` folder, and run the tests by typing following bash:
-```bash
-$ npm run test
-```
+**Note:** "raw profile" and "compiled profile" are differentiated by different perspectives. 
+When the authorization administrator maintain authorization profiles, they are raw profiles.
+When the system do authorization checks, the raw profiles must be converted to a compiled profile. 
+This is mainly to achieve better performance when running authorization checks.
  
 ## To Begin
 
@@ -83,10 +130,14 @@ $ npm run test
        //Do the add blog;
     }   
    ```
-    
+   
+3. You can also refer the `test/authorization` and run the tests by:   
+   ```bash
+   $ npm run test
+   ```
 ## With ExpressJS and PassportJS
 
-It is easy to confuse authentication with authorization. 
+It is easy to get confused on authentication and authorization. 
 While authentication verifies the user’s identity, 
 authorization verifies that the user in question has the correct permissions and rights to access the requested resource.
 The two always work together. Authentication occurs first, then authorization. 
@@ -168,9 +219,19 @@ Then each time the user performs an action on an object,
 corresponding authorization checks can be done before it actually happens. 
 Developers can decide where to embed the "authorization.check()" statements.
 
+You can refer a productive example [UI-logon](https://github.com/VinceZK/Logon),
+as well as its [DEMO](https://darkhouse.com.cn/logon/).
+
 ## Maintain Authorization Profile
-A user can be assigned with multiple authorization profiles, and each authorization profile includes multiple authorization objects. 
-Each authorization object can have more than one authorization fields. 
+Authorization profiles consists of authorizations. 
+They are in JSON format and can be maintained through all possible UI tools by the end-users. 
+They are recommended to be saved in DB so that they can be easily associated with login user IDs. 
+You can develop a role maintenance UI, which generates the authorization profiles. 
+When the roles are assigned to users, the corresponding authorization profiles are also assigned.
+
+A user can be assigned with multiple authorization profiles, 
+and each authorization profile includes multiple authorizations. 
+Each authorization has one authorization object and more than one authorization fields. 
 An authorization field is assigned with authorization values to indicate the granted permissions.
 
 For example, the following profile contains an authorization object named "blog", which has fields "Tag", "ID", and "Action".
@@ -195,7 +256,7 @@ on `blogs` which are tagged with `DB, JS, or Algorithm` and whose ID are `betwee
 
 The authorization value of a field is usually an array, 
 which can contain elementary values(string or integer) or **Select Options**, and they can be mix. 
-If you want the full permission, just assign the **"*"** character to the certain fields.
+If you want the full permission, just assign the wildcard "*" to the field.
 
 A select option is described by 4 attributes: "Operator", "Option", "Low", and "High", which are detailed bellow: 
 
@@ -252,12 +313,13 @@ Authorization.switchTraceOff();
 The trace result is output to the console:
 
 ```bash
-The identification is vincezk
-Authorization object: blog
-Required permission: {"blogID":4000000,"Content":"hello good bye","Action":"Post"}
-Authorization field: blogID
-Required field permission: 4000000
-Granted field permission:[{"Operator":"GreaterThan","Option":"Include","Low":4000000}]
+Identity is "Vincezk'"
+Authorization object: "comment2"
+Required permission: {"blogID":3999999,"Content":"hello there","Action":"Post"}
+
+ Authorization object: "comment4"
+  Required permission: {"blogID":3999999,"Content":".... Shit","Action":"Post"}
+   Granted permission: {"AuthObject":"comment4","AuthFieldValueComposition":[{"blogID":[{"Operator":"GreaterThan","Option":"Exclude","Low":4000000}],"Content":[{"Operator":"EndsWith","Option":"Exclude","Low":"Shit"}],"Action":"*"}]}
 ```
 
 The trace switch on/off does not require the restart of the node processes. It is a hot switch. 

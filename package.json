@@ -1,35 +1,28 @@
 {
   "name": "node-authorization",
-  "version": "1.0.7",
-  "description": "An object oriented authorization framework for Node.js, compatiable with express and passport.",
+  "version": "2.0.0",
+  "description": "An object-oriented authorization framework for Node.js, compatiable with express and passport.",
   "main": "index.js",
-  "dependencies": {
-    "underscore": "^1.9.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-loader": "^6.4.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.26.0",
     "mocha": "~6.1.4",
     "should": "~13.2.3"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha --require should ./test",
-    "build": "babel lib -d dist"
+    "test": "./node_modules/mocha/bin/_mocha --require should ./test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VinceZK/authorization.git"
   },
   "keywords": [
+    "permission",
     "authorization",
     "authentication",
     "security",
     "express",
     "passport",
-    "nodejs",
-    "framework"
+    "nodejs"
   ],
   "author": "vincezk",
   "license": "MIT",
