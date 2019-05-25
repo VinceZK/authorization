@@ -94,7 +94,7 @@ Here is an authorization profile which consists of 2 authorizations:
         }
     },
     {
-        "AuthObject: "blog",
+        "AuthObject": "blog",
         "AuthFieldValue": {
             "Tag": ["DB", "JS", "Algorithm"],
             "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
