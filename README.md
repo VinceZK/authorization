@@ -53,11 +53,11 @@ Below example shows an authorization of the "user" authorization object.
 It allows the granted identity has the permission to "Create", "Edit", "Display", "Lock", "Unlock" a "user" object.
 ```json
 {   
-    AuthObject: "user",
-    AuthFieldValue: 
+    "AuthObject": "user",
+    "AuthFieldValue": 
     {
-        Group: ["Ordinary"],
-        Action: ["Create","Edit","Display","Delete","Lock","Unlock"]
+        "Group": ["Ordinary"],
+        "Action": ["Create","Edit","Display","Delete","Lock","Unlock"]
     }
 }
 ```
@@ -71,11 +71,11 @@ together with the above authorization.
 It doesn't mean the identity can do "Edit" operation on both "Ordinary" and "Admin" user groups. 
 ```json
 {   
-    AuthObject: "user",
-    AuthFieldValue: 
+    "AuthObject": "user",
+    "AuthFieldValue": 
     {
-        Group: ["Admin"],
-        Action: ["Create","Display","Delete"]
+        "Group": ["Admin"],
+        "Action": ["Create","Display","Delete"]
     }
 }
 ```
@@ -87,18 +87,18 @@ Here is an authorization profile which consists of 2 authorizations:
 
 ```json
 [
-    {   AuthObject: "user",
-        AuthFieldValue:{
-            Group: ["Ordinary"],
-            Action: ["Create","Edit","Display","Delete","Lock","Unlock"]
+    {   "AuthObject": "user",
+        "AuthFieldValue":{
+            "Group": ["Ordinary"],
+            "Action": ["Create","Edit","Display","Delete","Lock","Unlock"]
         }
     },
     {
-        AuthObject: "blog",
-        AuthFieldValue:{
-            Tag: ["DB", "JS", "Algorithm"],
-            ID: [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
-            Action: ["Post", "Edit", "Publish"]
+        "AuthObject: "blog",
+        "AuthFieldValue": {
+            "Tag": ["DB", "JS", "Algorithm"],
+            "ID": [{"Operator":"Between", "Option":"Include", "Low":1000000, "High":1999999}, 2399999],
+            "Action": ["Post", "Edit", "Publish"]
         }
     }
 ]
