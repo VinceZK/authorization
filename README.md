@@ -35,7 +35,7 @@ if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
 ### Authorization Object
 *Authorization Object* usually corresponds to a business object, like "user", "blog", "material", "order", and so on.
 Sometimes, it can also be an abstract object that is only for the permission check purposes.
-For example, if you want show the total blog reads for certain users,
+For example, if you want to show the total blog reads to certain users,
 then you need to create an authorization object like "blogStatistic".
 
 ### Authorization Field
@@ -44,7 +44,7 @@ Usually, we have the "Action" authorization field to indicates the operations al
 Besides, we can have attributes derived from the business object as authorization fields. 
 This can facility the permission management by easily differentiate on the object instances. 
 For example, it is very common to add organizational fields as authorization fields, 
-like company, department, group on the "user" object. 
+like "company", "department", "group" on the "user" object. 
 
 ### Authorization 
 *Authorization* describes permissions on a business object.
@@ -105,7 +105,7 @@ Here is an authorization profile which consists of 2 authorizations:
 ```
 
 **Note:** "raw profile" and "compiled profile" are differentiated by different perspectives. 
-When the authorization administrator maintain authorization profiles, they are raw profiles.
+When the authorization profiles are maintained by the administrator, they are raw profiles.
 When the system do authorization checks, the raw profiles must be converted to a compiled profile. 
 This is mainly to achieve better performance when running authorization checks.
  
