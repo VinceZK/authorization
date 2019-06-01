@@ -4,8 +4,8 @@ It allows end-users rather than developers to define authorizations.
 
 In real use cases, control which views/APIs can be called or not is far more enough. 
 We require different users have different permissions on different business objects, 
-rather than simply building relationships between user and activities.
-For example, user A can edit blogs with tag "DB", while user B can add blogs with tag 'JS'.
+rather than simply building relationships between user and menus/activities.
+For example, user A can *edit blogs* with tag "DB", while user B can *add blogs* with tag 'JS'.
 As the tags are growing, it is impossible for developers to change the codes to adapt new tags. 
 Instead, you should let the end-users to do the authorization definitions and assignments. 
 In other words, You'd better to 
@@ -40,17 +40,18 @@ then you need to create an authorization object like "blogStatistic".
 
 ### Authorization Field
 An authorization object can be assigned with more than one *Authorization Fields*. 
-Usually, we have the "Action" authorization field to indicates the operations allowed to a certain business object.
+Usually, we have the "Action" authorization field to indicates the operations allowed to a business object.
 Besides, we can have attributes derived from the business object as authorization fields. 
-This can facility the permission management by easily differentiate on the object instances. 
-For example, it is very common to add organizational fields as authorization fields, 
-like "company", "department", "group" on the "user" object. 
+This is to facility the permission management by easily differentiate object instances through attributes. 
+For example, it is very common to use organizational attributes as authorization fields, 
+such as "company", "department", and "group" on the "user" object.
 
 ### Authorization 
 *Authorization* describes permissions on a business object.
-It is an instance of an authorization object, with concrete authorization values assigned to each authorization field.
+It is an instance of an authorization object with concrete authorization values on each authorization field.
 Below example shows an authorization of the "user" authorization object. 
-It allows the granted identity has the permission to "Create", "Edit", "Display", "Lock", "Unlock" a "user" object.
+It allows the granted identity has the permission to "Create", "Edit", "Display", and "Lock", "Unlock" 
+users that belong to the "Ordinary" group.
 ```json
 {   
     "AuthObject": "user",
@@ -68,7 +69,8 @@ They are examined separately during authorization checks.
 
 For example, if below authorization is assigned to an identity 
 together with the above authorization. 
-It doesn't mean the identity can do "Edit" operation on both "Ordinary" and "Admin" user groups. 
+It doesn't mean the identity can do "Edit", "Lock", and "Unlock" 
+operations on users that belong to the "Admin" user groups. 
 ```json
 {   
     "AuthObject": "user",
@@ -105,9 +107,9 @@ Here is an authorization profile which consists of 2 authorizations:
 ```
 
 **Note:** "raw profile" and "compiled profile" are differentiated by different perspectives. 
-When the authorization profiles are maintained by the administrator, they are raw profiles.
+When the authorization profiles are maintained by the administrator, they are called raw profiles.
 When the system do authorization checks, the raw profiles must be converted to a compiled profile. 
-This is mainly to achieve better performance when running authorization checks.
+This is mainly to achieve better performance by sorting and grouping authorizations.
  
 ## To Begin
 
