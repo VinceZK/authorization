@@ -1,5 +1,5 @@
 # Authorization
-Inspired by SAP's authorization check, node-authorization is an object-oriented authorization framework.
+Node-authorization is an object-oriented authorization framework.
 It allows end-users rather than developers to define authorizations. 
 
 In real use cases, control which views/APIs can be called or not is far more enough. 
@@ -13,6 +13,13 @@ In other words, You'd better to
 **Split the authorization logic apart from your application logic.** 
 
 ## Example
+In the project [UI-logon](https://github.com/VinceZK/Logon), you can find a comprehensive implementation 
+of identification management. There, you can maintain authorization profiles, users, roles, and so on in UIs. 
+You may experience yourself in this [Live DEMO](https://darkhouse.com.cn/logon/).
+
+![Maintain Permission and Profile](permission.png)
+
+Following code snippet gives you an simple example on how to embed node-authorization in your project.
 ```javascript
 const Authorization = require('node-authorization').Authorization;
 const compileProfile = require('node-authorization').profileCompiler;
@@ -20,8 +27,11 @@ const fs = require('fs');
 
 // Read the authorization profile from file system and compile it. 
 // You can also store profiles in DB(recommended).
-const rawProfile = JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8'));
-const compiledProfile = compileProfile(rawProfile);
+const rawProfiles = [
+  JSON.parse(fs.readFileSync('./example/testProfile01', 'utf8')),
+  JSON.parse(fs.readFileSync('./example/testProfile02', 'utf8'))
+];
+const compiledProfile = compileProfile(rawProfiles);
 
 const Authorization = new Authorization('UserID', compiledProfile);
 if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
@@ -31,7 +41,7 @@ if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
 }
 ```
 
-## Terminology 
+## Terminologies
 ### Authorization Object
 *Authorization Object* usually corresponds to a business object, like "user", "blog", "material", "order", and so on.
 Sometimes, it can also be an abstract object that is only for the permission check purposes.
@@ -50,7 +60,7 @@ such as "company", "department", and "group" on the "user" object.
 *Authorization* describes permissions on a business object.
 It is an instance of an authorization object with concrete authorization values on each authorization field.
 Below example shows an authorization of the "user" authorization object. 
-It allows the granted identity has the permission to "Create", "Edit", "Display", and "Lock", "Unlock" 
+It allows the granted identity has the permission to "Create", "Edit", "Display", "Lock", and "Unlock" 
 users that belong to the "Ordinary" group.
 ```json
 {   
@@ -221,8 +231,8 @@ Then each time the user performs an action on an object,
 corresponding authorization checks can be done before it actually happens. 
 Developers can decide where to embed the "authorization.check()" statements.
 
-You can refer a productive example [UI-logon](https://github.com/VinceZK/Logon),
-as well as its [DEMO](https://darkhouse.com.cn/logon/).
+You can refer the corresponding implementation in project [UI-logon](https://github.com/VinceZK/Logon/blob/master/server/Authentication.js),
+as well as its [Live DEMO](https://darkhouse.com.cn/logon/).
 
 ## Maintain Authorization Profile
 Authorization profiles consists of authorizations. 
@@ -230,6 +240,7 @@ They are in JSON format and can be maintained through all possible UI tools by t
 They are recommended to be saved in DB so that they can be easily associated with login user IDs. 
 You can develop a role maintenance UI, which generates the authorization profiles. 
 When the roles are assigned to users, the corresponding authorization profiles are also assigned.
+Again, you can refer the [Live DEMO](https://darkhouse.com.cn/logon/) and the project [UI-logon](https://github.com/VinceZK/Logon).
 
 A user can be assigned with multiple authorization profiles, 
 and each authorization profile includes multiple authorizations. 
@@ -295,6 +306,10 @@ And "Exclude" is just the complement set of "Include".
 Stands for the lower value and higher value. 
 Higher value is currently only used in the "Between" operator.
 
+### Authorization Maintenance UI
+![Authorization Profile](profile_blog.png)
+
+![Maintain Authorization Value](authorization.png)
 
 ## Switch Authorization Trace
 It is very useful to know which permissions are missing 
