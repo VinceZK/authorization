@@ -307,6 +307,7 @@ Stands for the lower value and higher value.
 Higher value is currently only used in the "Between" operator.
 
 ### Authorization Maintenance UI
+
 ![Authorization Profile](profile_blog.png)
 
 ![Maintain Authorization Value](authorization.png)
