@@ -2,9 +2,9 @@
 Node-authorization is an object-oriented authorization framework.
 It allows end-users rather than developers to define authorizations. 
 
-In real use cases, control which views or APIs can be accessed or not is far more enough. 
+In real use cases, control which views, APIs, or URI can be accessed or not is far more enough. 
 We require different users have different permissions on different business objects.
-For example, user A can *edit blogs* with in category "DB", while user B can *add blogs* in category 'JS'.
+For example, user A can *edit blogs* in category "DB", while user B can *add blogs* in category 'JS'.
 As the categories are growing, it is impossible for developers to change the codes to adapt. 
 Instead, you should let the end-users to do the authorization definitions and assignments. 
 In other words, You'd better to 
@@ -50,7 +50,7 @@ then you can create an authorization object like "blogStatistic".
 An authorization object can be assigned with more than one *Authorization Fields*. 
 Usually, we have the "Action" authorization field to indicates the operations allowed to a business object.
 Besides, we can have attributes derived from the business object as authorization fields. 
-This is to facility the permission management by easily differentiate object instances through attributes. 
+This is to facility the permission management by easily group object instances through attributes. 
 For example, it is very common to use organizational attributes to group system users,  
 such as "company", "department", and "group".
 
