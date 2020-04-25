@@ -2,20 +2,18 @@
 Node-authorization is an object-oriented authorization framework.
 It allows end-users rather than developers to define authorizations. 
 
-In real use cases, control which views/APIs can be called or not is far more enough. 
-We require different users have different permissions on different business objects, 
-rather than simply building relationships between user and menus/activities.
-For example, user A can *edit blogs* with tag "DB", while user B can *add blogs* with tag 'JS'.
-As the tags are growing, it is impossible for developers to change the codes to adapt new tags. 
+In real use cases, control which views or APIs can be accessed or not is far more enough. 
+We require different users have different permissions on different business objects.
+For example, user A can *edit blogs* with in category "DB", while user B can *add blogs* in category 'JS'.
+As the categories are growing, it is impossible for developers to change the codes to adapt. 
 Instead, you should let the end-users to do the authorization definitions and assignments. 
 In other words, You'd better to 
 
 **Split the authorization logic apart from your application logic.** 
 
 ## Example
-In the project [UI-logon](https://github.com/VinceZK/Logon), you can find a comprehensive implementation 
-of identification management. There, you can maintain authorization profiles, users, roles, and so on in UIs. 
-You may experience yourself in this [Live DEMO](https://darkhouse.com.cn/logon/).
+In the project [UI-logon](https://github.com/VinceZK/Logon), you can find a comprehensive realization 
+of an identification management solution. You may experience yourself in this [Live DEMO](https://darkhouse.com.cn/logon/).
 
 ![Maintain Permission and Profile](permission.png)
 
@@ -44,17 +42,17 @@ if(!Authorization.check('blog', {Tag:'DB',ID:1000001, Action:'Add'})){
 ## Terminologies
 ### Authorization Object
 *Authorization Object* usually corresponds to a business object, like "user", "blog", "material", "order", and so on.
-Sometimes, it can also be an abstract object that is only for the permission check purposes.
+Sometimes, it can also be an abstract object that is only for the permission check purpose.
 For example, if you want to show the total blog reads to certain users,
-then you need to create an authorization object like "blogStatistic".
+then you can create an authorization object like "blogStatistic".
 
 ### Authorization Field
 An authorization object can be assigned with more than one *Authorization Fields*. 
 Usually, we have the "Action" authorization field to indicates the operations allowed to a business object.
 Besides, we can have attributes derived from the business object as authorization fields. 
 This is to facility the permission management by easily differentiate object instances through attributes. 
-For example, it is very common to use organizational attributes as authorization fields, 
-such as "company", "department", and "group" on the "user" object.
+For example, it is very common to use organizational attributes to group system users,  
+such as "company", "department", and "group".
 
 ### Authorization 
 *Authorization* describes permissions on a business object.
@@ -73,14 +71,11 @@ users that belong to the "Ordinary" group.
 }
 ```
 
-**Note:** authorizations on the same authorization object won't be merged as one when
-doing authorization checks. Each authorization is an independent permission description.
-They are examined separately during authorization checks. 
+**Note:** authorizations of the same authorization object won't be merged when doing authorization checks. 
+Each authorization is an independent permission description which is checked separately during runtime. 
 
-For example, if below authorization is assigned to an identity 
-together with the above authorization. 
-It doesn't mean the identity can do "Edit", "Lock", and "Unlock" 
-operations on users that belong to the "Admin" user groups. 
+For example, if below authorization is assigned to an identity together with the above authorization. 
+It doesn't mean the identity can also do "Edit", "Lock", and "Unlock" on users that belong to the "Admin" user groups. 
 ```json
 {   
     "AuthObject": "user",
@@ -93,9 +88,9 @@ operations on users that belong to the "Admin" user groups.
 ```
 
 ### Authorization Profile
-*Authorization Profile* consists of multiple authorizations.
-It is a logic representation of authorizations that can be assigned to an identity as a unit. 
-Here is an authorization profile which consists of 2 authorizations:
+*Authorization Profile* contains multiple authorizations.
+It is a logic representation of authorizations that can be assigned to an identity. 
+Below authorization profile contains 2 authorizations:
 
 ```json
 [
@@ -116,10 +111,10 @@ Here is an authorization profile which consists of 2 authorizations:
 ]
 ```
 
-**Note:** "raw profile" and "compiled profile" are differentiated by different perspectives. 
-When the authorization profiles are maintained by the administrator, they are called raw profiles.
-When the system do authorization checks, the raw profiles must be converted to a compiled profile. 
-This is mainly to achieve better performance by sorting and grouping authorizations.
+**Note:** the system differentiates "raw profile" and "compiled profile" for the performance reason. 
+When the authorization profiles are maintained and stored, they are raw profiles.
+When the authorization profiles are read for permission checks, they are converted to a compiled profile. 
+This is to achieve better performance by sorting and grouping authorizations.
  
 ## To Begin
 
