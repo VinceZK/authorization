@@ -226,7 +226,7 @@ Then each time the user performs an action on an object,
 corresponding authorization checks can be done before it actually happens. 
 Developers can decide where to embed the "authorization.check()" statements.
 
-You can refer the corresponding implementation in project [UI-logon](https://github.com/VinceZK/Logon/blob/master/server/Authentication.js),
+You can refer the corresponding implementation in project [UI-logon](https://github.com/VinceZK/Logon/blob/master/server/identification.js),
 as well as its [Live DEMO](https://darkhouse.com.cn/logon/).
 
 ## Maintain Authorization Profile
